@@ -7,6 +7,7 @@ export type InputProps = {
   type?: string;
   value?: string;
   label?: string;
+  hidden?: boolean;
   noLabel?: boolean;
   noColon?: boolean;
   readonly?: boolean;
@@ -26,6 +27,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       type,
       value,
       label,
+      hidden,
       noLabel,
       noColon,
       readonly,
@@ -39,7 +41,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     ref
   ): JSX.Element => {
     return (
-      <div className='flex flex-col gap-1'>
+      <div className={cn('flex flex-col gap-1', hidden && 'hidden')}>
         {!noLabel && (
           <label
             htmlFor={name}
@@ -51,22 +53,22 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         )}
 
         <input
-          name={name}
           id={name}
-          className={cn(
-            isPreview
-              ? 'border-none bg-transparent px-0 outline-none'
-              : 'input-lg input max-w-full border-black/40 placeholder-gray-900',
-            className
-          )}
+          ref={ref}
+          name={name}
           value={value && value}
           type={type ? type : 'text'}
           checked={type === 'checkbox' ? value === 'true' : false}
-          placeholder={placeholder}
           required={required ? required : true}
           onChange={handleChange}
           readOnly={readonly ? readonly : false}
-          ref={ref}
+          className={cn(
+            isPreview
+              ? 'border-none bg-transparent px-0 pl-1 outline-none'
+              : 'input-lg input mt-1 block w-full max-w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500 sm:text-sm',
+            className
+          )}
+          placeholder={placeholder}
         />
       </div>
     );

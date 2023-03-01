@@ -11,7 +11,7 @@ import { CheckoutStepState } from '@lib/state/stepper-state';
 export default function CheckoutPayment(): JSX.Element {
   const router = useRouter();
   const [stepper, setStepper] = useRecoilState(CheckoutStepState);
-  // const setDeliveryType = useSetRecoilState(CheckoutState);
+  const setCheckoutState = useSetRecoilState(CheckoutState);
   const cart = useRecoilValue(CartState);
   const cartList = cart.cartList ?? [];
 
@@ -50,6 +50,8 @@ export default function CheckoutPayment(): JSX.Element {
       ]
     });
 
+    setCheckoutState({ deliveryType: standard ? 'standard' : 'express' });
+
     router.push('/kassen/bekraeft');
   };
 
@@ -64,7 +66,7 @@ export default function CheckoutPayment(): JSX.Element {
             express={express}
             setExpress={setExpress}
           />
-          <div className='checkout-sidebar-box pt-2'>
+          <div className='pt-4'>
             <div className='space-y-2 rounded-md bg-slate-200 p-6 md:p-8'>
               <span className='h5ding flex items-center justify-between'>
                 <h5 className=''>Levering</h5>{' '}
@@ -87,7 +89,7 @@ export default function CheckoutPayment(): JSX.Element {
           </div>
           <div className='pt-4 text-right'>
             <button
-              className='btn-error btn-md btn xl:btn-lg'
+              className='btn-error btn-md btn md:btn-lg'
               onClick={handleRef}
             >
               Fortsæt

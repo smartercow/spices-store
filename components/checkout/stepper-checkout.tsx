@@ -2,13 +2,16 @@ import { useRouter } from 'next/router';
 import cn from 'clsx';
 import { useRecoilValue } from 'recoil';
 import { CheckoutStepState } from '@lib/state/stepper-state';
+import { CheckoutState } from '@lib/state/checkout-state';
 
 type STEP_PATH = 'adresse' | 'betaling' | 'bekraeft' | 'faerdig' | 'faktura';
 
 export default function CheckoutStepper(): JSX.Element {
   const router = useRouter();
   const stepper = useRecoilValue(CheckoutStepState);
+  const checkoutState = useRecoilValue(CheckoutState);
   const steps = stepper.steps;
+  const checkoutDone = checkoutState.checkoutDone;
 
   const address = router.pathname.startsWith('/kassen/adresse');
   const betaling = router.pathname.startsWith('/kassen/betaling');
@@ -33,8 +36,6 @@ export default function CheckoutStepper(): JSX.Element {
   const bekraeft_step = steps.find((step) => step.step === 'bekraeft');
   const faerdig_step = steps.find((step) => step.step === 'faerdig');
 
-  console.log('STEPDONE', adresse_step);
-
   const addressStep =
     (currentStep?.step === 'adresse' && currentStep?.active && 'active') ||
     (adresse_step?.completed && 'completed');
@@ -58,74 +59,67 @@ export default function CheckoutStepper(): JSX.Element {
     faerdigStep === 'active' ||
     faerdigStep === 'completed';
 
-  console.log('stepper', stepper);
-  console.log('stepPath', stepPath);
-  console.log('currentStep', currentStep);
-  console.log('addressStep', addressStep);
-  console.log('betalingStep', betalingStep);
-  console.log('bekraeftStep', bekraeftStep);
-  console.log('faerdigStep', faerdigStep);
-
   return (
     <div className='w-full py-4'>
-      {router && notLoading && (
-        <ol className='steps'>
-          <>
-            <li
-              className={cn(
-                'step overflow-hidden',
-                addressStep === 'active'
-                  ? 'step-active step-error'
-                  : addressStep === 'completed'
-                  ? 'step-error step-done'
-                  : ''
-              )}
-            >
-              <div className='step-circle'>1</div>
-              <h3>Adresse</h3>
-            </li>
-            <li
-              className={cn(
-                'step overflow-hidden',
-                betalingStep === 'active'
-                  ? 'step-active step-error'
-                  : betalingStep === 'completed'
-                  ? 'step-error step-done '
-                  : ''
-              )}
-            >
-              <div className='step-circle'>2</div>
-              <h3>Betaling</h3>
-            </li>
-            <li
-              className={cn(
-                'step overflow-hidden',
-                bekraeftStep === 'active'
-                  ? 'step-active step-error'
-                  : bekraeftStep === 'completed'
-                  ? 'step-error step-done '
-                  : ''
-              )}
-            >
-              <div className='step-circle'>3</div>
-              <h3>Bekræft</h3>
-            </li>
-            <li
-              className={cn(
-                'step step-error overflow-hidden',
-                faerdigStep === 'active'
-                  ? 'step-active step-error'
-                  : faerdigStep === 'completed'
-                  ? 'step-error step-done '
-                  : ''
-              )}
-            >
-              <div className='step-circle'>4</div>
-              <h3>Færdig</h3>
-            </li>
-          </>
-        </ol>
-      )}
+      {checkoutDone ||
+        (router && notLoading && (
+          <ol className='steps'>
+            <>
+              <li
+                className={cn(
+                  'step overflow-hidden',
+                  addressStep === 'active'
+                    ? 'step-active step-error'
+                    : addressStep === 'completed' || checkoutDone
+                    ? 'step-error step-done'
+                    : ''
+                )}
+              >
+                <div className='step-circle'>1</div>
+                <h3>Adresse</h3>
+              </li>
+              <li
+                className={cn(
+                  'step overflow-hidden',
+                  betalingStep === 'active'
+                    ? 'step-active step-error'
+                    : betalingStep === 'completed' || checkoutDone
+                    ? 'step-error step-done '
+                    : ''
+                )}
+              >
+                <div className='step-circle'>2</div>
+                <h3>Betaling</h3>
+              </li>
+              <li
+                className={cn(
+                  'step overflow-hidden',
+                  bekraeftStep === 'active'
+                    ? 'step-active step-error'
+                    : bekraeftStep === 'completed' || checkoutDone
+                    ? 'step-error step-done '
+                    : ''
+                )}
+              >
+                <div className='step-circle'>3</div>
+                <h3>Bekræft</h3>
+              </li>
+              <li
+                className={cn(
+                  'step-error step overflow-hidden',
+                  checkoutDone
+                    ? 'step-active step-error'
+                    : faerdigStep === 'completed'
+                    ? 'step-error step-done '
+                    : ''
+                )}
+              >
+                <div className='step-circle'>4</div>
+                <h3>Færdig</h3>
+              </li>
+            </>
+          </ol>
+        ))}
     </div>
   );
 }

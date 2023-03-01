@@ -2,6 +2,7 @@ import '@styles/globals.scss';
 import '@styles/fontawesome/css/all.css';
 import '@styles/typography/circularstd-font/stylesheet.css';
 import '@styles/typography/sofiapro-font/stylesheet.css';
+import 'react-toastify/dist/ReactToastify.css';
 import MainLayout from '@components/layout/layout';
 import { UserContextProvider } from '@lib/context/user-context';
 import { WindowContextProvider } from '@lib/context/window-context';
@@ -18,6 +19,7 @@ import {
   CheckoutContext,
   CheckoutContextProvider
 } from '@lib/context/checkout-context';
+import { ToastContainer } from 'react-toastify';
 
 const queryClient = new QueryClient();
 
@@ -40,6 +42,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                   <Component {...pageProps} />
                 </MainLayout>
                 <AuthModal />
+                <ToastContainer />
               </CheckoutContextProvider>
             </UserContextProvider>
           </RecoilRoot>

@@ -10,17 +10,26 @@ import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import cn from 'clsx';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { CheckoutStepState } from '@lib/state/stepper-state';
 import { useRouter } from 'next/router';
+import { CheckoutState } from '@lib/state/checkout-state';
 
-export default function CheckoutUserInfo(): JSX.Element {
+type CheckoutUserInfoProps = {
+  isPreview?: boolean;
+};
+
+export default function CheckoutUserInfo({
+  isPreview
+}: CheckoutUserInfoProps): JSX.Element {
   const user = useUser();
   const router = useRouter();
   const supabase = useSupabaseClient();
   const { data: userData, isLoading: userDataLoading } = useAccount(
     user?.id || ''
   );
+
+  const [checkoutState, setCheckoutState] = useRecoilState(CheckoutState);
   const [stepper, setStepper] = useRecoilState(CheckoutStepState);
 
   const [checkoutUserData, setCheckoutUserData] = useState<UserData>(
@@ -46,6 +55,12 @@ export default function CheckoutUserInfo(): JSX.Element {
   } = useForm<UserData>();
 
   const handleRef = (path: string) => {
+    if (!user) return;
+    if (!full_name || !street || !zip_code || !city) {
+      setError('Du skal udfylde alle felter!');
+      return;
+    }
+
     const setPrevStep = stepper.steps.map((step) => {
       if (step.step === 'adresse') {
         return {
@@ -67,6 +82,11 @@ export default function CheckoutUserInfo(): JSX.Element {
           completed: false
         }
       ]
+    });
+
+    setCheckoutState({
+      ...checkoutState,
+      currentCheckoutId: stepper.stepperId
     });
 
     router.push(path);
@@ -106,10 +126,15 @@ export default function CheckoutUserInfo(): JSX.Element {
     }
   }
 
+  const hideEmptyInput = isPreview && !mobile_number;
+
   return (
     <>
       {!userDataLoading && userData && (
-        <form className='checkout-form' onSubmit={handleSubmit(onSubmit)}>
+        <form
+          className={cn(isPreview ? '' : 'checkout-form')}
+          onSubmit={handleSubmit(onSubmit)}
+        >
           <div className='checkout-box space-y-8'>
             <div className='space-y-4'>
               <h4 className='h4ding'>Leveringadresse</h4>
@@ -120,6 +145,8 @@ export default function CheckoutUserInfo(): JSX.Element {
                     {...input}
                     handleChange={handleChange}
                     noColon
+                    hidden={input.name === 'mobile_number' && hideEmptyInput}
+                    isPreview={isPreview}
                     value={
                       input.name === 'full_name'
                         ? full_name
@@ -135,36 +162,45 @@ export default function CheckoutUserInfo(): JSX.Element {
                     }
                   />
                 ))}
-                <div className='grid h-full place-items-end text-right'>
-                  <button
-                    type='submit'
-                    className={cn(
-                      'btn-error btn min-w-[6rem]',
-                      isSubmitting && 'btn-loading'
-                    )}
-                  >
-                    {!isSubmitting && 'Rediger'}
-                  </button>
+                <div className={cn(isPreview ? 'hidden' : 'inline-grid')}>
+                  <div className='grid h-full place-items-end text-right'>
+                    <button
+                      type='submit'
+                      className={cn(
+                        'btn-error btn min-w-[6rem]',
+                        isSubmitting && 'btn-loading'
+                      )}
+                    >
+                      {!isSubmitting && 'Rediger'}
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-          <div className='checkout-sidebar-grid'>
-            <div className='checkout-sidebar-box'>
-              <div></div>
-              <div className='space-y-4'>
-                <div>
-                  <button
-                    type='button'
-                    className='btn-error btn'
-                    onClick={() => handleRef('/kassen/betaling')}
-                  >
-                    Fortsæt
-                  </button>
+          <div
+            className={cn(
+              'checkout-sidebar-grid-hidden',
+              isPreview ? 'hidden' : 'inline-grid'
+            )}
+          >
+            <div className='checkout-sidebar-grid'>
+              <div className='checkout-sidebar-box grid w-full grid-cols-1 place-items-center space-y-0'>
+                <div className='inline-block xl:hidden'></div>
+                <div className='space-y-4 text-center'>
+                  <div>
+                    <button
+                      type='button'
+                      className='btn-error btn-md btn md:btn-lg'
+                      onClick={() => handleRef('/kassen/betaling')}
+                    >
+                      Fortsæt
+                    </button>
+                  </div>
+                  {error && (
+                    <p className='text-lg font-bold text-error'>{error}</p>
+                  )}
                 </div>
-                {error && (
-                  <p className='text-lg font-bold text-error'>{error}</p>
-                )}
               </div>
             </div>
           </div>

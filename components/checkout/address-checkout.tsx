@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { Input } from '@components/ui/input';
 import {
   checkoutInputs,
-  initialCheckoutInputsValues
+  initialCheckoutInputsValues,
+  UserSignupInfo
 } from '@lib/local/checkout-inputs';
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
@@ -10,19 +11,21 @@ import { AuthModalState } from '@lib/state/auth-state';
 import { useRouter } from 'next/router';
 import { CheckoutStepState } from '@lib/state/stepper-state';
 import AuthLogin from '@components/auth/auth-login';
-
-const format = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/;
+import { toast } from 'react-toastify';
+import { CheckoutState } from '@lib/state/checkout-state';
 
 export default function CheckoutAddress(): JSX.Element {
   const session = useSession();
   const supabase = useSupabaseClient();
   const router = useRouter();
+
   const setAuthModal = useSetRecoilState(AuthModalState);
+  const [checkoutState, setCheckoutState] = useRecoilState(CheckoutState);
   const [stepper, setStepper] = useRecoilState(CheckoutStepState);
 
   const [checkoutLogin, setCheckoutLogin] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
-  const [checkoutSignUpForm, setCheckoutSignUpForm] = useState(
+  const [checkoutSignUpForm, setCheckoutSignUpForm] = useState<UserSignupInfo>(
     initialCheckoutInputsValues
   );
 
@@ -37,16 +40,50 @@ export default function CheckoutAddress(): JSX.Element {
     mobile_number
   } = checkoutSignUpForm;
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setCheckoutSignUpForm((prev) => ({
-      ...prev,
-      [event.target.name]: event.target.value
-    }));
+  const validateNumberInput = (
+    name: string,
+    value: string,
+    isNumber: boolean,
+    errorMessage: string
+  ) => {
+    if (isNumber) {
+      const ageRegex = /^[0-9\b]+$/;
+      if (!ageRegex.test(value)) {
+        toast.error(errorMessage);
+        return;
+      }
+    }
 
-    if (error) setError('');
+    setCheckoutSignUpForm((prevState) => ({ ...prevState, [name]: value }));
+  };
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+
+    switch (name) {
+      case 'mobile_number': {
+        const errorMessage = 'Indtast kun tal for mobile nummer!';
+        validateNumberInput(name, value, true, errorMessage);
+        break;
+      }
+      case 'zip_code': {
+        const errorMessage = 'Indtast kun tal for postnummer!';
+        validateNumberInput(name, value, true, errorMessage);
+        break;
+      }
+      default: {
+        setCheckoutSignUpForm((prevState) => ({ ...prevState, [name]: value }));
+        break;
+      }
+    }
   };
 
   const handleRef = () => {
+    if (!full_name || !street || !zip_code || !city) {
+      setError('Du skal udfylde alle felter!');
+      return;
+    }
+
     const setPrevStep = stepper.steps.map((step) => {
       if (step.step === 'adresse') {
         return {
@@ -70,21 +107,17 @@ export default function CheckoutAddress(): JSX.Element {
       ]
     });
 
+    setCheckoutState({
+      ...checkoutState,
+      currentCheckoutId: stepper.stepperId
+    });
+
     router.push('/kassen/betaling');
   };
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (error) setError('');
-
-    if (format.test(email)) return setError('Ugyldig email');
-    if (password !== confirm_password) return setError('Password matcher ikke');
-    if (password.length < 6)
-      return setError('Adgangskoden skal være på mindst 6 tegn');
-    if (!full_name) return setError('Du skal udfylde dit fulde navn');
-    if (!street) return setError('Du skal udfylde din adresse');
-    if (!zip_code) return setError('Du skal udfylde dit postnummer');
-    if (!city) return setError('Du skal udfylde din by');
 
     if (email && password.length >= 6) {
       try {
@@ -135,8 +168,15 @@ export default function CheckoutAddress(): JSX.Element {
                     <Input
                       key={input.name}
                       {...input}
-                      handleChange={handleChange}
+                      handleChange={handleInputChange}
                       noColon
+                      value={
+                        input.name === 'email'
+                          ? email
+                          : input.name === 'password'
+                          ? password
+                          : confirm_password
+                      }
                     />
                   ))}
                 </div>
@@ -151,8 +191,17 @@ export default function CheckoutAddress(): JSX.Element {
                     <Input
                       key={input.name}
                       {...input}
-                      handleChange={handleChange}
+                      handleChange={handleInputChange}
                       noColon
+                      value={
+                        input.name === 'full_name'
+                          ? full_name
+                          : input.name === 'street'
+                          ? street
+                          : input.name === 'zip_code'
+                          ? zip_code
+                          : city
+                      }
                     />
                   ))}
                 </div>
@@ -168,8 +217,9 @@ export default function CheckoutAddress(): JSX.Element {
                 <div className='checkout-box-grid'>
                   <Input
                     {...checkoutInputs[4]}
-                    handleChange={handleChange}
+                    handleChange={handleInputChange}
                     noColon
+                    value={mobile_number}
                   />
                 </div>
               </div>
@@ -177,14 +227,15 @@ export default function CheckoutAddress(): JSX.Element {
           </div>
 
           <div className='checkout-sidebar-grid'>
-            <div className='checkout-sidebar-box'>
-              <div></div>
+            <div className='checkout-sidebar-box grid place-items-center space-y-0'>
+              <div className='inline-block xl:hidden'></div>
               <div className='space-y-4'>
-                <div>
-                  <button type='submit' className='btn-error btn'>
-                    {session ? 'Fortsæt' : 'Opret bruger'}
-                  </button>
-                </div>
+                <button
+                  type='submit'
+                  className='bt-lg btn-rounded btn-error btn whitespace-nowrap'
+                >
+                  {session ? 'Fortsæt' : 'Opret bruger'}
+                </button>
                 {error && (
                   <p className='text-lg font-bold text-error'>{error}</p>
                 )}

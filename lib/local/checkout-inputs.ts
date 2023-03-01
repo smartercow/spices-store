@@ -4,9 +4,10 @@ export type UserSignupInfo = {
   password: string;
   confirm_password: string;
   street: string;
-  zip_code: string;
+  zip_code?: string;
   city: string;
-  mobile_number: string;
+  mobile_number?: string;
+  errorMsg?: string;
 };
 
 export type UserData = Pick<
@@ -43,6 +44,7 @@ export const checkoutInputs = [
     name: 'mobile_number',
     label: 'Mobilnummer (valgfrit)',
     type: 'text',
+    required: false,
     placeholder: 'Mobilnummer'
   },
   {
@@ -89,6 +91,7 @@ export const checkoutCardInputs = [
     name: 'card_number',
     label: 'Kortnummer',
     type: 'text',
+    pattern: '[0-9]*',
     placeholder: 'Kortnummer'
   },
   {
@@ -101,12 +104,14 @@ export const checkoutCardInputs = [
     name: 'card_expiry',
     label: 'Udløbsdato',
     type: 'text',
+    pattern: '[0-9]*',
     placeholder: 'Udløbsdato'
   },
   {
     name: 'card_cvc',
     label: 'CVC',
     type: 'text',
+    pattern: '[0-9]*',
     placeholder: 'CVC'
   }
 ];

@@ -1,14 +1,18 @@
 import { useState, useEffect, useContext, createContext, useMemo } from 'react';
 import { useUser } from '@supabase/auth-helpers-react';
-import type { ReactNode } from 'react';
-import type { User } from '@supabase/supabase-js';
 import { useRouter } from 'next/router';
-import { LOCAL_STORAGE_STEPPER } from './checkout-context';
+import {
+  LOCAL_STORAGE_CHECKOUTSTATE,
+  LOCAL_STORAGE_STEPPER
+} from './checkout-context';
 import { useSetRecoilState } from 'recoil';
 import {
   CheckoutStepState,
-  defaultCheckoutStepState
+  defaultStepperState
 } from '@lib/state/stepper-state';
+import { CheckoutState, defaultCheckoutState } from '@lib/state/checkout-state';
+import type { ReactNode } from 'react';
+import type { User } from '@supabase/supabase-js';
 
 type UserContext = {
   user: User | null;
@@ -31,6 +35,7 @@ export function UserContextProvider({
   const user = useUser();
   const router = useRouter();
   const setStepper = useSetRecoilState(CheckoutStepState);
+  const setCheckoutState = useSetRecoilState(CheckoutState);
 
   const [getStorageLoading, setGetStorageLoading] = useState<boolean>(true);
 
@@ -48,18 +53,37 @@ export function UserContextProvider({
 
   useEffect(() => {
     try {
-      const storage = localStorage.getItem(LOCAL_STORAGE_STEPPER);
+      const storageStepper = localStorage.getItem(LOCAL_STORAGE_STEPPER);
+      const storageCheckoutState = localStorage.getItem(
+        LOCAL_STORAGE_CHECKOUTSTATE
+      );
 
-      if (storage?.length === 0 || storage === null || storage === undefined) {
-        setStepper(defaultCheckoutStepState);
-        console.log('No storage in storage');
+      if (
+        storageStepper?.length === 0 ||
+        storageStepper === null ||
+        storageStepper === undefined
+      ) {
+        setStepper(defaultStepperState);
 
         setGetStorageLoading(false);
         return;
       }
-      // console.log('StorageContext', storage);
 
-      setStepper({ ...JSON.parse(storage) });
+      if (
+        storageCheckoutState?.length === 0 ||
+        storageCheckoutState === null ||
+        storageCheckoutState === undefined
+      ) {
+        setCheckoutState(defaultCheckoutState);
+
+        setGetStorageLoading(false);
+        return;
+      }
+
+      // console.log('StorageContext', storageStepper);
+      // console.log('StorageContext', storageCheckoutState);
+
+      setStepper({ ...JSON.parse(storageStepper) });
       setGetStorageLoading(false);
     } catch (e) {
       setStepper({ stepperId: '', steps: [] });

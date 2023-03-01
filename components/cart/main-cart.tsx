@@ -6,9 +6,13 @@ import Link from 'next/link';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import CartEmpty from './empty-cart';
 import cn from 'clsx';
-import { CheckoutStepState } from '@lib/state/stepper-state';
+import {
+  CheckoutStepState,
+  defaultStepperState
+} from '@lib/state/stepper-state';
 import { getRandomId } from '@lib/utils/random-id';
 import { useRouter } from 'next/router';
+import { CheckoutState, defaultCheckoutState } from '@lib/state/checkout-state';
 
 const LOCAL_STORAGE_CARTLIST = 'cartList';
 
@@ -18,7 +22,7 @@ export default function CartMain(): JSX.Element {
   const router = useRouter();
 
   const [stepper, setStepper] = useRecoilState(CheckoutStepState);
-
+  const [checkoutState, setCheckoutState] = useRecoilState(CheckoutState);
   const [cart, setCart] = useRecoilState(CartState);
   const cartList = cart.cartList ?? [];
   const cartCount = cart.cartList?.length ?? 0;
@@ -31,6 +35,8 @@ export default function CartMain(): JSX.Element {
   );
 
   const handleRef = (path: string) => {
+    setStepper(defaultStepperState);
+    setCheckoutState(defaultCheckoutState);
     setStepper({
       ...stepper,
       stepperId: randomStepperId,
@@ -42,6 +48,7 @@ export default function CartMain(): JSX.Element {
         }
       ]
     });
+
     router.push(path);
   };
 

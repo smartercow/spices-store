@@ -20,7 +20,7 @@ export default function OverviewFeatured({
 
   const featuredProducts = products?.filter(
     (product: { featured: { id: number } }) =>
-      product.featured.id === featuredId
+      product.featured?.id === featuredId
   );
 
   return (

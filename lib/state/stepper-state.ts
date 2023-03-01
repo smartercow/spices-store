@@ -12,7 +12,9 @@ export type CheckoutStep = {
   deliveryType?: 'standard' | 'express' | null;
 };
 
-export const defaultCheckoutStepState: CheckoutStep = {
+export type StepperId = Pick<CheckoutStep, 'stepperId'>;
+
+export const defaultStepperState: CheckoutStep = {
   steps: [],
   stepperId: null,
   deliveryType: null
@@ -20,5 +22,5 @@ export const defaultCheckoutStepState: CheckoutStep = {
 
 export const CheckoutStepState = atom<CheckoutStep>({
   key: 'checkoutStepState',
-  default: defaultCheckoutStepState
+  default: defaultStepperState
 });

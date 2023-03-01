@@ -7,10 +7,12 @@ export interface cartItem {
 }
 
 export type CartState = {
+  products?: number[];
   cartList: cartItem[];
 };
 
 export const defaultCartState: CartState = {
+  products: [],
   cartList: []
 };
 

@@ -4,6 +4,7 @@ import {
   checkoutCardInputs,
   initialCheckoutCardInputsValues
 } from '@lib/local/checkout-inputs';
+import cn from 'clsx';
 
 type CheckoutCreditCardProps = {
   isPreview?: boolean;
@@ -27,7 +28,7 @@ export default function CheckoutCreditCard({
   };
 
   return (
-    <div className='checkout-box h-full'>
+    <div className={cn('checkout-box', isPreview ? 'h-fit' : 'h-full')}>
       <h4 className='h4ding'>Betalingsmetode</h4>
       <div>Visa</div>
       <div className='checkout-box-grid'>

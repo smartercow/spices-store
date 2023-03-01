@@ -1,11 +1,17 @@
 import { atom } from 'recoil';
 
 interface CheckoutState {
-  deliveryType: 'standard' | 'express';
+  orderNumber?: number;
+  checkoutDone?: boolean;
+  deliveryType?: 'standard' | 'express';
+  currentCheckoutId?: string | null;
 }
 
-const defaultCheckoutState: CheckoutState = {
-  deliveryType: 'standard'
+export const defaultCheckoutState: CheckoutState = {
+  orderNumber: 0,
+  checkoutDone: false,
+  deliveryType: 'standard',
+  currentCheckoutId: null
 };
 
 export const CheckoutState = atom<CheckoutState>({

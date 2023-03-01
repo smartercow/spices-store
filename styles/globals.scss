@@ -47,18 +47,21 @@
     @apply bg-white p-8 md:p-10 lg:p-14;
   }
   .checkout-form {
-    @apply flex flex-col justify-between gap-6 text-main-black md:gap-8 xl:flex-row;
+    @apply flex flex-col justify-between gap-6 text-main-black md:gap-8 lg:flex-row;
   }
   .checkout-box {
-    @apply w-full space-y-4 rounded-lg bg-white py-6 px-4 md:py-8 md:px-6 lg:px-10;
+    @apply w-full space-y-4 rounded-lg bg-white py-6 px-4 md:px-6 lg:py-8 xl:px-10;
   }
   .checkout-sidebar-box {
-    @apply space-y-4;
+    @apply checkout-box w-full max-w-lg space-y-4;
   }
   .checkout-box-grid {
     @apply grid w-full grid-cols-1 gap-4 md:grid-cols-2 md:gap-8;
   }
   .checkout-sidebar-grid {
-    @apply checkout-box grid h-fit w-full grid-cols-1 gap-4 md:grid-cols-2 md:gap-8 xl:max-w-xs 2xl:block 2xl:px-6 3xl:max-w-[22rem];
+    @apply grid h-fit w-full grid-cols-1 gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-1 xl:block xl:max-w-xs 2xl:px-6 3xl:max-w-[22rem];
+  }
+  .checkout-sidebar-grid-hidden {
+    @apply grid h-fit w-full xl:max-w-xs 3xl:max-w-[22rem];
   }
 }

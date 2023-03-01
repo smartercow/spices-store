@@ -1,6 +1,9 @@
-import React from 'react';
+import { CheckoutState } from '@lib/state/checkout-state';
+import { useRecoilValue } from 'recoil';
+import cn from 'clsx';
 
 type CheckoutShipmentProps = {
+  isPreview?: boolean;
   standard: boolean;
   setStandard: React.Dispatch<React.SetStateAction<boolean>>;
   express: boolean;
@@ -8,21 +11,33 @@ type CheckoutShipmentProps = {
 };
 
 export default function CheckoutShipment({
+  isPreview,
   standard,
   setStandard,
   express,
   setExpress
 }: CheckoutShipmentProps) {
+  const checkoutState = useRecoilValue(CheckoutState);
+  const isStandard = checkoutState.deliveryType === 'standard';
+  const isExpress = checkoutState.deliveryType === 'express';
+
+  console.log('checkout', checkoutState);
+
   return (
-    <div className='checkout-sidebar-box'>
+    <div className='space-y-4'>
       <h4 className='h4ding'>Forsendelse</h4>
       <div className='space-y-6'>
-        <div className='flex gap-4'>
+        <div
+          className={cn(
+            'flex gap-4',
+            isPreview && isExpress ? 'hidden' : 'inline-block'
+          )}
+        >
           <div className='pt-2'>
             <input
               type='radio'
               className='radio-error radio-lg radio'
-              checked={standard}
+              checked={isPreview ? isStandard : standard}
               onChange={() => {
                 setStandard(!standard);
                 setExpress(!express);
@@ -37,12 +52,17 @@ export default function CheckoutShipment({
             <h6 className='h6ding'>Gratis</h6>
           </div>
         </div>
-        <div className='flex gap-4'>
+        <div
+          className={cn(
+            'flex gap-4',
+            isPreview && isStandard ? 'hidden' : 'inline-block'
+          )}
+        >
           <div className='pt-2'>
             <input
               type='radio'
               className='radio-error radio-lg radio'
-              checked={express}
+              checked={isPreview ? isExpress : express}
               onChange={() => {
                 setExpress(!express);
                 setStandard(!standard);

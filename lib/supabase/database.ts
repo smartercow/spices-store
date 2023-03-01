@@ -96,14 +96,72 @@ export interface Database {
           updated_at?: string | null
         }
       }
+      new_orders: {
+        Row: {
+          account: string | null
+          created_at: string | null
+          delivery: number
+          id: number
+          order_number: number
+          order_products: Json | null
+          order_total_price: number
+        }
+        Insert: {
+          account?: string | null
+          created_at?: string | null
+          delivery?: number
+          id?: number
+          order_number?: number
+          order_products?: Json | null
+          order_total_price?: number
+        }
+        Update: {
+          account?: string | null
+          created_at?: string | null
+          delivery?: number
+          id?: number
+          order_number?: number
+          order_products?: Json | null
+          order_total_price?: number
+        }
+      }
+      orders: {
+        Row: {
+          account: string
+          created_at: string | null
+          delivery: number
+          id: number
+          order_number: number
+          products: number[]
+          total_price: number
+        }
+        Insert: {
+          account: string
+          created_at?: string | null
+          delivery: number
+          id?: number
+          order_number?: number
+          products: number[]
+          total_price?: number
+        }
+        Update: {
+          account?: string
+          created_at?: string | null
+          delivery?: number
+          id?: number
+          order_number?: number
+          products?: number[]
+          total_price?: number
+        }
+      }
       products: {
         Row: {
-          category_id: number | null
+          category_id: number
           description: string | null
           featured_in: number | null
           id: number
-          name: string | null
-          preview: string | null
+          name: string
+          preview: string
           price: number
           sale: boolean | null
           sale_price: number | null
@@ -111,12 +169,12 @@ export interface Database {
           stock: number | null
         }
         Insert: {
-          category_id?: number | null
+          category_id?: number
           description?: string | null
           featured_in?: number | null
           id?: number
-          name?: string | null
-          preview?: string | null
+          name?: string
+          preview?: string
           price?: number
           sale?: boolean | null
           sale_price?: number | null
@@ -124,17 +182,37 @@ export interface Database {
           stock?: number | null
         }
         Update: {
-          category_id?: number | null
+          category_id?: number
           description?: string | null
           featured_in?: number | null
           id?: number
-          name?: string | null
-          preview?: string | null
+          name?: string
+          preview?: string
           price?: number
           sale?: boolean | null
           sale_price?: number | null
           sale_text?: string | null
           stock?: number | null
+        }
+      }
+      shipping: {
+        Row: {
+          created_at: string | null
+          id: number
+          name: string
+          type: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: number
+          name?: string
+          type?: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: number
+          name?: string
+          type?: string
         }
       }
       test: {

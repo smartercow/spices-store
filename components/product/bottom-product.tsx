@@ -13,13 +13,24 @@ export default function BottomProduct(props: BottomProductProps): JSX.Element {
         <div className='flex gap-10'>
           <div className='product-overview-box w-full space-y-2 rounded-2xl'>
             <h5 className='sub-heading'>Beskrivelse</h5>
-            <p className='paragraph'>{product.description}</p>
+            <p>
+              Lorem ipsum dolor, sit amet consectetur adipisicing elit. A
+              cupiditate nesciunt vel. Alias nihil, beatae, quibusdam
+              perspiciatis, numquam dignissimos sequi cum quaerat maxime in
+              deserunt cupiditate ullam minus enim pariatur?
+            </p>
             <br />
             <p>
               Lorem ipsum dolor, sit amet consectetur adipisicing elit. A
               cupiditate nesciunt vel. Alias nihil, beatae, quibusdam
               perspiciatis, numquam dignissimos sequi cum quaerat maxime in
               deserunt cupiditate ullam minus enim pariatur?
+            </p>
+            <br />
+            <p className='hidden md:inline-block'>
+              Lorem ipsum dolor, sit amet consectetur adipisicing elit. A
+              cupiditate nesciunt vel. Alias nihil, beatae, quibusdam
+              perspiciatis.
             </p>
           </div>
           <div className='product-overview-box w-full space-y-5 rounded-2xl'>
