@@ -1,0 +1,64 @@
+@use 'slider';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply min-h-screen;
+  }
+}
+@layer components {
+  .main-extent {
+    @apply w-full px-4 lg:px-8 xl:px-16;
+  }
+  .main-transition {
+    @apply transition-all duration-300;
+  }
+  .sec-transition {
+    @apply transition-all duration-1000;
+  }
+  .sidebar-width {
+    @apply main-transition w-full max-w-[5rem] pl-3 pr-2 lg:max-w-[12rem] lg:px-4 xl:max-w-[14rem] 2xl:max-w-[16rem] 2xl:px-10;
+  }
+  .items-grid {
+    @apply grid grid-cols-3 gap-x-4 gap-y-5 lg:grid-cols-4 lg:gap-x-5 lg:gap-y-7 3xl:grid-cols-5;
+  }
+  .h4ding {
+    @apply text-lg font-bold;
+  }
+  .h5ding {
+    @apply text-base font-bold;
+  }
+  .h6ding {
+    @apply text-sm font-semibold;
+  }
+  .main-heading {
+    @apply text-2xl font-bold lg:text-3xl xl:text-4xl;
+  }
+  .sub-heading {
+    @apply text-xl font-semibold xl:text-2xl;
+  }
+  .paragraph {
+    @apply text-sm tracking-tight xl:text-base;
+  }
+  .product-overview-box {
+    @apply bg-white p-8 md:p-10 lg:p-14;
+  }
+  .checkout-form {
+    @apply flex flex-col justify-between gap-6 text-main-black md:gap-8 xl:flex-row;
+  }
+  .checkout-box {
+    @apply w-full space-y-4 rounded-lg bg-white py-6 px-4 md:py-8 md:px-6 lg:px-10;
+  }
+  .checkout-sidebar-box {
+    @apply space-y-4;
+  }
+  .checkout-box-grid {
+    @apply grid w-full grid-cols-1 gap-4 md:grid-cols-2 md:gap-8;
+  }
+  .checkout-sidebar-grid {
+    @apply checkout-box grid h-fit w-full grid-cols-1 gap-4 md:grid-cols-2 md:gap-8 xl:max-w-xs 2xl:block 2xl:px-6 3xl:max-w-[22rem];
+  }
+}

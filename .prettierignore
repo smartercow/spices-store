@@ -1,0 +1,12 @@
+# testing
+/coverage
+
+# next.js
+/.next/
+/.vercel/
+
+# production
+/build
+
+# node modules
+/node_modules/
