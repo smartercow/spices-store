@@ -5,13 +5,24 @@ import { Input } from '@components/ui/input';
 import { authLoginInputs } from '@lib/local/auth-inputs';
 import { useRouter } from 'next/navigation';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
+import cn from 'clsx';
 
 const initialTextInputs = {
   email: '',
   password: ''
 };
 
-export default function AuthLogin(): JSX.Element {
+type AuthLoginProps = {
+  handleRef?: () => void;
+  checkoutLogin?: boolean;
+  setCheckoutLogin?: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+export default function AuthLogin({
+  handleRef,
+  checkoutLogin,
+  setCheckoutLogin
+}: AuthLoginProps): JSX.Element {
   const supabase = useSupabaseClient();
 
   const router = useRouter();
@@ -51,6 +62,8 @@ export default function AuthLogin(): JSX.Element {
       }
     } else {
       setError('Please fill all fields');
+      if (handleRef) handleRef();
+      if (setCheckoutLogin) setCheckoutLogin(false);
     }
   };
   return (
@@ -89,9 +102,17 @@ export default function AuthLogin(): JSX.Element {
           </span>
         </div>
 
-        <button type='submit' className='btn-error btn'>
-          Log Ind
-        </button>
+        <div className={cn(checkoutLogin && 'w-full text-center')}>
+          <button
+            type='submit'
+            className={cn(
+              'btn-error btn',
+              checkoutLogin ? 'w-40 text-center text-lg' : 'w-full'
+            )}
+          >
+            Log Ind
+          </button>
+        </div>
       </form>
     </>
   );

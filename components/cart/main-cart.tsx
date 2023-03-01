@@ -172,7 +172,7 @@ export default function CartMain(): JSX.Element {
                 className='btn-error btn'
                 onClick={() => handleRef('/kassen/adresse')}
               >
-                Videre
+                Fortsæt
               </button>
             </div>
           </div>

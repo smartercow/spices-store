@@ -172,7 +172,7 @@ export default function Header(): JSX.Element {
                   )}
                   onClick={handleRef}
                 >
-                  Videre til Kassen
+                  Fortsæt til kassen
                 </button>
               </div>
             </div>

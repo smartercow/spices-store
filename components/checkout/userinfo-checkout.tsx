@@ -159,7 +159,7 @@ export default function CheckoutUserInfo(): JSX.Element {
                     className='btn-error btn'
                     onClick={() => handleRef('/kassen/betaling')}
                   >
-                    Videre
+                    Fortsæt
                   </button>
                 </div>
                 {error && (

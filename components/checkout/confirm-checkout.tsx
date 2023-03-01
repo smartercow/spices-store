@@ -71,7 +71,7 @@ export default function CheckoutPayment(): JSX.Element {
               className='btn-error btn-md btn xl:btn-lg'
               onClick={handleRef}
             >
-              Videre
+              Fortsæt
             </button>
           </div>
         </div>
