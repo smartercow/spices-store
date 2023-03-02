@@ -23,24 +23,9 @@ export default function ProductsRootPage() {
       {products && (
         <div className='items-grid'>
           <>
-            {Object(products)
-              .slice(0, width < 1025 ? 3 : width < 1600 ? 4 : 5)
-              .map((product: Product, i: number) => (
-                <OverviewCard
-                  key={i}
-                  category_id={product.category_id}
-                  description={product.description}
-                  featured_in={product.featured_in}
-                  id={product.id}
-                  name={product.name}
-                  preview={product.preview}
-                  price={product.price}
-                  sale={product.sale}
-                  sale_price={product.sale_price}
-                  sale_text={product.sale_text}
-                  stock={product.stock}
-                />
-              ))}
+            {Object(products).map((product: any, i: number) => (
+              <OverviewCard key={i} product={product} />
+            ))}
           </>
         </div>
       )}

@@ -10,6 +10,8 @@ export default function OverviewProduct(
 ): JSX.Element {
   const { product } = props;
 
+  console.log('product', product);
+
   return (
     <>
       {product && (
@@ -19,7 +21,8 @@ export default function OverviewProduct(
               {product.category.name}
             </h6>
             <h2 className='main-heading'>
-              {product.name} <span className='italic'>- 50g.</span>
+              {product.name}{' '}
+              <span className='italic'>- {product.weight}g.</span>
             </h2>
             <div className='space-y-1'>
               <p className='paragraph'>

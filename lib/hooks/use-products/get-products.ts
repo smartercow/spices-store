@@ -12,6 +12,7 @@ export function getProducts(client: SupabaseClient) {
     sale_price,
     sale_text,
     category: category_id (id, name,path),
-    featured: featured_in (id,name,path)
+    featured: featured_in (id,name,path),
+    weight
   `);
 }

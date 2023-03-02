@@ -167,6 +167,7 @@ export interface Database {
           sale_price: number | null
           sale_text: string | null
           stock: number | null
+          weight: number
         }
         Insert: {
           category_id?: number
@@ -180,6 +181,7 @@ export interface Database {
           sale_price?: number | null
           sale_text?: string | null
           stock?: number | null
+          weight?: number
         }
         Update: {
           category_id?: number
@@ -193,6 +195,7 @@ export interface Database {
           sale_price?: number | null
           sale_text?: string | null
           stock?: number | null
+          weight?: number
         }
       }
       shipping: {

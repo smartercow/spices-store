@@ -6,22 +6,29 @@ import useCategoryById from '@lib/hooks/use-category-by-id';
 import { PRODUCTS_CDN_URL } from '@lib/supabase/utils-supabase';
 import type { Product } from '@lib/supabase/types-database';
 
-export default function OverviewCard(props: Product): JSX.Element {
-  const { data: category, isLoading } = useCategoryById(props.category_id ?? 1);
+type OverviewCardProps = {
+  product: any;
+};
+
+export default function OverviewCard({
+  product
+}: OverviewCardProps): JSX.Element {
   const [imgLoading, setImgLoading] = useState<boolean>(true);
 
-  if (!category) return <></>;
+  // if (!category) return <></>;
 
-  const category_name = category?.name ?? '';
-  const category_path = category?.path ?? '';
+  const category_name = product.category?.name ?? '';
+  const category_path = product.category?.path ?? '';
 
-  console.log('category: ', category_name);
+  console.log('product: ', product);
 
   return (
     <>
-      {!isLoading && category && (
+      {product && (
         <Link
-          href={`/produkter/${category_path}/${props.id}/${String(props.name)
+          href={`/produkter/${category_path}/${product.id}/${String(
+            product.name
+          )
             .toLowerCase()
             .replace(/ /g, '-')}`}
           className='main-transition overflow-hidden rounded-md bg-white shadow-md duration-500 hover:scale-[1.01] 
@@ -30,9 +37,9 @@ export default function OverviewCard(props: Product): JSX.Element {
           <div className=''>
             <Image
               priority
-              alt={props.name || 'Video thumbnail'}
+              alt={product.name || 'Video thumbnail'}
               src={
-                `${PRODUCTS_CDN_URL}/${props.preview}` ||
+                `${PRODUCTS_CDN_URL}/${product.preview}` ||
                 '/assets/images/placeholder.svg'
               }
               width={500}
@@ -51,12 +58,12 @@ export default function OverviewCard(props: Product): JSX.Element {
               </p>
               <div className='w-20 text-right'>
                 <p className='text-base font-medium text-error lg:text-lg'>
-                  {props.price} kr
+                  {product.price} kr
                 </p>
               </div>
             </div>
             <h4 className='truncate text-sm font-semibold md:text-base'>
-              {props.name}
+              {product.name}
             </h4>
           </div>
         </Link>

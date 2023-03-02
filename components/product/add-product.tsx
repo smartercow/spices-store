@@ -21,8 +21,6 @@ export default function AddProduct({ product }: ProductProps): JSX.Element {
 
   const [quantity, setQuantity] = useState<number>(1);
 
-  const randomValue = (Math.random() + 3).toString(36).substring(2);
-
   const handleSetCart = ({ prdkt, qntty, ciid }: SetCartProps) => {
     const productInCart = cartList.find(
       (cartItem) => cartItem.product.id === prdkt.id

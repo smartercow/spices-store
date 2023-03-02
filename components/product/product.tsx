@@ -19,12 +19,9 @@ type ProductProps = {
 export default function Product(
   props: ProductProps & BreadcrumbProps
 ): JSX.Element {
-  const { pathname } = props;
   const { data: products, isLoading: productsLoading } = useProducts();
   const { data: product, isLoading } = useProductById(props?.productId);
   const [imgLoading, setImgLoading] = useState<boolean>(true);
-
-  console.log('productPage', Object(product?.featured).id);
 
   return (
     <>

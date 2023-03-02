@@ -16,7 +16,7 @@ export default function OverviewProducts({
 }: OverviewProductsProps): JSX.Element {
   const { data: products, isLoading } = useProductsByCategory(productId);
 
-  console.log('name: ', name);
+  console.log('producst', products);
 
   return (
     <>
@@ -34,21 +34,8 @@ export default function OverviewProducts({
             <div className='items-grid'>
               {products && (
                 <>
-                  {Object(products).map((product: Product, i: number) => (
-                    <OverviewCard
-                      key={i}
-                      category_id={product.category_id}
-                      description={product.description}
-                      featured_in={product.featured_in}
-                      id={product.id}
-                      name={product.name}
-                      preview={product.preview}
-                      price={product.price}
-                      sale={product.sale}
-                      sale_price={product.sale_price}
-                      sale_text={product.sale_text}
-                      stock={product.stock}
-                    />
+                  {Object(products).map((product: any, i: number) => (
+                    <OverviewCard key={i} product={product} />
                   ))}
                 </>
               )}

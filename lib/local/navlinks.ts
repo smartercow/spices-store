@@ -22,11 +22,6 @@ export const navLinks: Readonly<NavLink[]> = [
     linkName: 'Produkter',
     fontAwesomeIcon: 'fa-pepper-hot'
   },
-  /*   {
-    href: '/oekologi',
-    linkName: 'Økologi',
-    customIcon: 'EcologyIcon'
-  }, */
   {
     href: '/tilbud',
     linkName: 'Tilbud',
@@ -51,10 +46,4 @@ export const navLinks: Readonly<NavLink[]> = [
     fontAwesomeIcon: 'fa-circle-phone',
     disabled: true
   }
-  /*   {
-    href: '/omos',
-    linkName: 'Om Os',
-    iconName: 'EnvelopeIcon',
-    disabled: true
-  } */
 ];
