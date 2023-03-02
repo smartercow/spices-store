@@ -30,7 +30,8 @@ export const navLinks: Readonly<NavLink[]> = [
   {
     href: '/tilbud',
     linkName: 'Tilbud',
-    fontAwesomeIcon: 'fa-badge-percent'
+    fontAwesomeIcon: 'fa-badge-percent',
+    disabled: true
   },
   {
     href: '/retter',

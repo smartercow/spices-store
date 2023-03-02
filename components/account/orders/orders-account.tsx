@@ -10,15 +10,15 @@ export default function AccountOrders({
   const { data: orders, isLoading } = useOrdersByUserId(userId);
 
   return (
-    <div>
+    <div className='checkout-box'>
       <h4 className='text-xl font-bold'>Mine ordrer</h4>
-      <div className='accordion-group'>
+      <div className='accordion-group space-y-4'>
         {!isLoading && orders && (
-          <div>
+          <>
             {Object(orders).map((order: Order, index: number) => (
               <AccountOrder key={index} order={order} />
             ))}
-          </div>
+          </>
         )}
       </div>
     </div>

@@ -16,6 +16,8 @@ export default function OverviewProducts({
 }: OverviewProductsProps): JSX.Element {
   const { data: products, isLoading } = useProductsByCategory(productId);
 
+  console.log('name: ', name);
+
   return (
     <>
       {!isLoading && (

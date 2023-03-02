@@ -3,19 +3,23 @@ import Image from 'next/image';
 import cn from 'clsx';
 import Link from 'next/link';
 import useCategoryById from '@lib/hooks/use-category-by-id';
-import type { Product } from '@lib/supabase/types-database';
 import { PRODUCTS_CDN_URL } from '@lib/supabase/utils-supabase';
+import type { Product } from '@lib/supabase/types-database';
 
 export default function OverviewCard(props: Product): JSX.Element {
-  const { data: category } = useCategoryById(props.category_id ?? 1);
+  const { data: category, isLoading } = useCategoryById(props.category_id ?? 1);
   const [imgLoading, setImgLoading] = useState<boolean>(true);
+
+  if (!category) return <></>;
 
   const category_name = category?.name ?? '';
   const category_path = category?.path ?? '';
 
+  console.log('category: ', category_name);
+
   return (
     <>
-      {props && category && (
+      {!isLoading && category && (
         <Link
           href={`/produkter/${category_path}/${props.id}/${String(props.name)
             .toLowerCase()

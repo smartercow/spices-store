@@ -39,7 +39,9 @@ export default function AccountOrder({
             htmlFor={`${currentOrder.order_number}`}
             className='accordion-title flex w-full px-4'
           >
-            <p className='text-sm'>{currentOrder.created_at}</p>
+            <p className='scale-x-[1] text-sm'>
+              {String(currentOrder.created_at).slice(0, 10)}
+            </p>
             <h4 className='h4ding '>
               Order nummer: {currentOrder.order_number}
             </h4>
