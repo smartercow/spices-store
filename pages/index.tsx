@@ -5,14 +5,12 @@ export default function Homepage() {
   const { data: products } = useProducts();
   return (
     <div className='w-full space-y-10'>
-      <div className='flex gap-6'>
-        <div className='max-w-[300px] space-y-3'>
-          <h3 className='text-xl font-bold'>Økologiske krydderier</h3>
-          <p>
-            Økologiske krydderier fra det meste af verden er vores speciale, med
-            garanti for at kvaliteten er i højsæde.
-          </p>
-        </div>
+      <div className='h-full w-full overflow-hidden rounded-lg'>
+        <img
+          src='/assets/images/main-hero.jpg'
+          alt='Spices hero'
+          className='max-h-56 w-full object-cover md:max-h-64 lg:max-h-80 xl:max-h-96'
+        />
       </div>
       {products && (
         <section className='space-y-6'>
