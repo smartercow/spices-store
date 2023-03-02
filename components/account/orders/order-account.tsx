@@ -22,8 +22,7 @@ export default function AccountOrder({
       {!isLoading && currentOrder && (
         <div
           className={cn(
-            'accordion-group-bordered accordion-group-hover accordion',
-            isInvoice && 'accordion-open'
+            'accordion-group-hover accordion accordion-group-bordered'
           )}
         >
           <input
