@@ -56,7 +56,6 @@ export default function CheckoutPayment(): JSX.Element {
     if (cartList.length < 0) return;
 
     handleFilter();
-    console.log('cartItems', cartItems);
   }, [cartList]);
 
   const handleRef = () => {
@@ -72,9 +71,6 @@ export default function CheckoutPayment(): JSX.Element {
     localStorage.removeItem('stepper');
     router.push('/kassen/faktura');
   };
-
-  console.log('standard', standard);
-  console.log('express', express);
 
   return (
     <div className='space-y-8'>

@@ -1,8 +1,6 @@
 import type { SupabaseClient } from '@supabase/auth-helpers-nextjs';
 
 export function getOrderById(client: SupabaseClient, orderId: number) {
-  console.log('orderId', orderId);
-
   return client
     .from('new_orders')
     .select(

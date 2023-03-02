@@ -17,15 +17,12 @@ export default function AccountOrder({
   const { data: invoiceOrder, isLoading } = useOrderById(orderNumber ?? 0);
   const currentOrder = isInvoice ? invoiceOrder : order;
 
-  console.log('currentOrder', currentOrder);
-  console.log('isInvoice', isInvoice);
-
   return (
     <>
       {!isLoading && currentOrder && (
         <div
           className={cn(
-            'accordion accordion-group-bordered accordion-group-hover',
+            'accordion-group-bordered accordion-group-hover accordion',
             isInvoice && 'accordion-open'
           )}
         >

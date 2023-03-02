@@ -3,6 +3,7 @@ import { useUser } from '@supabase/auth-helpers-react';
 import { useRouter } from 'next/router';
 import {
   LOCAL_STORAGE_CHECKOUTSTATE,
+  LOCAL_STORAGE_COOKIES,
   LOCAL_STORAGE_STEPPER
 } from './checkout-context';
 import { useSetRecoilState } from 'recoil';
@@ -13,6 +14,7 @@ import {
 import { CheckoutState, defaultCheckoutState } from '@lib/state/checkout-state';
 import type { ReactNode } from 'react';
 import type { User } from '@supabase/supabase-js';
+import { CookiesState } from '@lib/state/cookies-state';
 
 type UserContext = {
   user: User | null;
@@ -36,6 +38,7 @@ export function UserContextProvider({
   const router = useRouter();
   const setStepper = useSetRecoilState(CheckoutStepState);
   const setCheckoutState = useSetRecoilState(CheckoutState);
+  const setCookies = useSetRecoilState(CookiesState);
 
   const [getStorageLoading, setGetStorageLoading] = useState<boolean>(true);
 
@@ -57,6 +60,7 @@ export function UserContextProvider({
       const storageCheckoutState = localStorage.getItem(
         LOCAL_STORAGE_CHECKOUTSTATE
       );
+      const storageCookiesState = localStorage.getItem(LOCAL_STORAGE_COOKIES);
 
       if (
         storageStepper?.length === 0 ||
@@ -80,14 +84,22 @@ export function UserContextProvider({
         return;
       }
 
-      // console.log('StorageContext', storageStepper);
-      // console.log('StorageContext', storageCheckoutState);
+      if (
+        storageCookiesState?.length === 0 ||
+        storageCookiesState === null ||
+        storageCookiesState === undefined
+      ) {
+        setCheckoutState(defaultCheckoutState);
+
+        setGetStorageLoading(false);
+        return;
+      }
 
       setStepper({ ...JSON.parse(storageStepper) });
+      setCookies({ ...JSON.parse(storageCookiesState) });
       setGetStorageLoading(false);
     } catch (e) {
       setStepper({ stepperId: '', steps: [] });
-      console.log('Error in storage!!!', e);
       setGetStorageLoading(false);
     }
   }, []);

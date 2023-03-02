@@ -15,12 +15,8 @@ export default function OverviewCard({
 }: OverviewCardProps): JSX.Element {
   const [imgLoading, setImgLoading] = useState<boolean>(true);
 
-  // if (!category) return <></>;
-
   const category_name = product.category?.name ?? '';
   const category_path = product.category?.path ?? '';
-
-  console.log('product: ', product);
 
   return (
     <>

@@ -52,8 +52,6 @@ export default function AuthLogin({
           password: password
         });
         if (res.error) throw res.error;
-        /*         const urserId = res.data.user?.id;
-        console.log('urserId', urserId); */
 
         setAuthModalState({ open: false, view: 'login' });
         router.refresh();

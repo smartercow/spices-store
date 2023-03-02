@@ -17,7 +17,7 @@ export default function ProductsProvider(props: BreadcrumbProps): JSX.Element {
   return (
     <div className='space-y-2'>
       {router && <Breadcrumbs {...props} />}
-      {name && <h2 className='text-3xl font-bold'>{name}</h2>}
+      {/* {name && <h2 className='text-3xl font-bold'>{name}</h2>} */}
     </div>
   );
 }

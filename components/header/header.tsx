@@ -36,12 +36,10 @@ export default function Header(): JSX.Element {
 
       if (storage?.length === 0 || storage === null || storage === undefined) {
         setCart({ cartList: [] });
-        console.log('no storage');
 
         setLoading(false);
         return;
       }
-      // console.log('storage', storage);
 
       setCart({ cartList: JSON.parse(storage) });
       setLoading(false);

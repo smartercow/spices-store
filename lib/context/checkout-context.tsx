@@ -1,23 +1,20 @@
-import { useState, useEffect, useContext, createContext, useMemo } from 'react';
+import { useEffect, useContext, createContext } from 'react';
 import { useUser } from '@supabase/auth-helpers-react';
-import { useRouter } from 'next/router';
-import { useRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { type CheckoutStep, CheckoutStepState } from '@lib/state/stepper-state';
-import type { ReactNode } from 'react';
-import type { User } from '@supabase/supabase-js';
 import { useUserContext } from '@lib/context/user-context';
 import { CheckoutState } from '@lib/state/checkout-state';
-import { CartState } from '@lib/state/cart';
+import { CookiesState } from '@lib/state/cookies-state';
+import type { ReactNode } from 'react';
+import type { User } from '@supabase/supabase-js';
 
 export const LOCAL_STORAGE_STEPPER = 'stepper';
 export const LOCAL_STORAGE_CHECKOUTSTATE = 'checkoutState';
-export const LOCAL_PRODUCTS_BACKEND = 'productsBackend';
+export const LOCAL_STORAGE_COOKIES = 'cookies';
 
 type CheckoutContext = {
   user: User | null;
   stepper: CheckoutStep;
-  //   error: Error | null;
-  //   loading: boolean;
 };
 
 export const CheckoutContext = createContext<CheckoutContext | null>(null);
@@ -32,9 +29,9 @@ export function CheckoutContextProvider({
   const user = useUser();
   const { getStorageLoading } = useUserContext();
 
-  const [stepper, setStepper] = useRecoilState(CheckoutStepState);
-  const [checkoutState, setCheckoutState] = useRecoilState(CheckoutState);
-  const [cart, setCart] = useRecoilState(CartState);
+  const stepper = useRecoilValue(CheckoutStepState);
+  const checkoutState = useRecoilValue(CheckoutState);
+  const cookies = useRecoilValue(CookiesState);
 
   useEffect(() => {
     if (getStorageLoading) return;
@@ -49,14 +46,15 @@ export function CheckoutContextProvider({
     );
   }, [checkoutState]);
 
+  useEffect(() => {
+    if (getStorageLoading) return;
+    localStorage.setItem(LOCAL_STORAGE_COOKIES, JSON.stringify(cookies));
+  }, [cookies]);
+
   const value: CheckoutContext = {
     user,
     stepper
-    // error,
-    // loading,
   };
-
-  // console.log('stepState', stepper);
 
   return (
     <CheckoutContext.Provider value={value}>

@@ -12,5 +12,6 @@ export function getOrdersByUserId(client: SupabaseClient, userId: string) {
         delivery_type: delivery (id, name , type),
         created_at`
     )
+    .order('created_at', { ascending: false })
     .eq('account', userId);
 }

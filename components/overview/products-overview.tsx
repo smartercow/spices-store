@@ -1,22 +1,20 @@
 import OverviewCard from '@components/overview/card-overview';
 import ProductsProvider from '@components/page/product-page';
 import useProductsByCategory from '@lib/hooks/use-products-by-category';
-import { Product } from '@lib/supabase/types-database';
+import OverviewHero from './hero-overview';
 
 type OverviewProductsProps = {
   name: string;
   href: string;
-  productId: number;
+  categoryId: number;
 };
 
 export default function OverviewProducts({
   name,
   href,
-  productId
+  categoryId
 }: OverviewProductsProps): JSX.Element {
-  const { data: products, isLoading } = useProductsByCategory(productId);
-
-  console.log('producst', products);
+  const { data: products, isLoading } = useProductsByCategory(categoryId);
 
   return (
     <>
@@ -31,15 +29,17 @@ export default function OverviewProducts({
               categoryHref={`/produkter/${href}`}
             />
 
-            <div className='items-grid'>
-              {products && (
-                <>
+            {products && (
+              <>
+                <OverviewHero categoryId={categoryId} />
+
+                <div className='items-grid pt-6'>
                   {Object(products).map((product: any, i: number) => (
                     <OverviewCard key={i} product={product} />
                   ))}
-                </>
-              )}
-            </div>
+                </div>
+              </>
+            )}
           </div>
         </>
       )}

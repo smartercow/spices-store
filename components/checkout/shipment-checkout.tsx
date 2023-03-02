@@ -21,8 +21,6 @@ export default function CheckoutShipment({
   const isStandard = checkoutState.deliveryType === 'standard';
   const isExpress = checkoutState.deliveryType === 'express';
 
-  console.log('checkout', checkoutState);
-
   return (
     <div className='space-y-4'>
       <h4 className='h4ding'>Forsendelse</h4>

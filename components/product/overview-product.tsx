@@ -10,8 +10,6 @@ export default function OverviewProduct(
 ): JSX.Element {
   const { product } = props;
 
-  console.log('product', product);
-
   return (
     <>
       {product && (

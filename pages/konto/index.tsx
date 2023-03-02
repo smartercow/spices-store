@@ -16,7 +16,7 @@ export default function AcountPage() {
             <AccountOrders userId={user.id} />
             <div className='space-y-8'>
               <CheckoutUserInfo isPreview />
-              <CheckoutCreditCard isPreview />
+              {/* <CheckoutCreditCard isPreview /> */}
             </div>
           </div>
         </section>

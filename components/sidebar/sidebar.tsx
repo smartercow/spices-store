@@ -16,13 +16,9 @@ export default function Aside(): JSX.Element {
 
   const handleLogout = async () => {
     const { error } = await supabase.auth.signOut();
-    // Refresh the page.
     router.refresh();
-
-    if (error) {
-      console.log({ error });
-    }
   };
+
   return (
     <aside className='sidebar-width h-screen border-r bg-white'>
       <header className='fixed flex h-full w-fit flex-col justify-between'>

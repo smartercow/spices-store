@@ -27,7 +27,9 @@ export default function OverviewFeatured({
     <div className='space-y-5 rounded-lg bg-white px-8 py-5'>
       <div className='flex justify-between gap-2'>
         <h3 className='text-2xl font-semibold'>{title}</h3>
-        <InternalLink name='Se alle' href={href} />
+        <div className='cursor-not-allowed'>
+          <InternalLink name='Se alle' href={``} />
+        </div>
       </div>
       {featuredProducts && (
         <div className='items-grid'>

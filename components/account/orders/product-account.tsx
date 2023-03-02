@@ -18,6 +18,8 @@ export default function AccountProduct({
 
   const [imgLoading, setImgLoading] = useState<boolean>(true);
 
+  ///produkter/${product.category?.path}/${product.id}/${String(product.name).toLowerCase().replace(/ /g, '-')}
+
   return (
     <>
       {product && (
