@@ -5,11 +5,9 @@ import Script from 'next/script';
 export default function Document() {
   return (
     <Html>
-      <Head />
-      <body className={`${isDevelopment ? 'debug-screens' : ''}`}>
-        <Main />
-        <NextScript />
-        <Script>
+      <head>
+        <title>Spices</title>
+        <Script id='show-banner' strategy='afterInteractive'>
           {`  var _paq = window._paq = window._paq || [];
   /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
   _paq.push(['trackPageView']);
@@ -22,6 +20,11 @@ export default function Document() {
     g.async=true; g.src='//cdn.matomo.cloud/spicesstorevercelapp.matomo.cloud/matomo.js'; s.parentNode.insertBefore(g,s);
   })();`}
         </Script>
+      </head>
+
+      <body className={`${isDevelopment ? 'debug-screens' : ''}`}>
+        <Main />
+        <NextScript />
       </body>
     </Html>
   );
